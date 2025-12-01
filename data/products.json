@@ -1,0 +1,111 @@
+[
+  {
+    "id": "1",
+    "name": "Classic White T-Shirt",
+    "description": "Comfortable cotton t-shirt perfect for everyday wear. Available in multiple sizes.",
+    "price": 29.99,
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+    "category": "Men",
+    "stock": 50
+  },
+  {
+    "id": "2",
+    "name": "Elegant Summer Dress",
+    "description": "Beautiful floral summer dress made from breathable fabric. Perfect for warm weather.",
+    "price": 59.99,
+    "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=500",
+    "category": "Women",
+    "stock": 30
+  },
+  {
+    "id": "3",
+    "name": "Wireless Bluetooth Headphones",
+    "description": "Premium noise-cancelling headphones with 30-hour battery life. Perfect for music lovers.",
+    "price": 149.99,
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+    "category": "Electronics",
+    "stock": 25
+  },
+  {
+    "id": "4",
+    "name": "Leather Jacket",
+    "description": "Genuine leather jacket with modern design. Durable and stylish.",
+    "price": 199.99,
+    "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500",
+    "category": "Men",
+    "stock": 15
+  },
+  {
+    "id": "5",
+    "name": "Designer Handbag",
+    "description": "Elegant designer handbag with multiple compartments. Perfect for any occasion.",
+    "price": 129.99,
+    "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=500",
+    "category": "Women",
+    "stock": 20
+  },
+  {
+    "id": "6",
+    "name": "Smart Watch",
+    "description": "Feature-rich smartwatch with fitness tracking, heart rate monitor, and smartphone connectivity.",
+    "price": 249.99,
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
+    "category": "Electronics",
+    "stock": 18
+  },
+  {
+    "id": "7",
+    "name": "Slim Fit Jeans",
+    "description": "Comfortable slim-fit jeans made from premium denim. Available in multiple colors.",
+    "price": 79.99,
+    "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500",
+    "category": "Men",
+    "stock": 40
+  },
+  {
+    "id": "8",
+    "name": "High Heel Shoes",
+    "description": "Elegant high heel shoes perfect for formal occasions. Available in black and nude.",
+    "price": 89.99,
+    "image": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500",
+    "category": "Women",
+    "stock": 22
+  },
+  {
+    "id": "9",
+    "name": "Laptop Stand",
+    "description": "Ergonomic aluminum laptop stand. Adjustable height for better posture.",
+    "price": 39.99,
+    "image": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500",
+    "category": "Electronics",
+    "stock": 35
+  },
+  {
+    "id": "10",
+    "name": "Casual Sneakers",
+    "description": "Comfortable and stylish sneakers for everyday wear. Lightweight and durable.",
+    "price": 69.99,
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500",
+    "category": "Men",
+    "stock": 28
+  },
+  {
+    "id": "11",
+    "name": "Silk Scarf",
+    "description": "Luxurious silk scarf with beautiful patterns. Perfect accessory for any outfit.",
+    "price": 49.99,
+    "image": "https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?w=500",
+    "category": "Women",
+    "stock": 45
+  },
+  {
+    "id": "12",
+    "name": "USB-C Hub",
+    "description": "Multi-port USB-C hub with HDMI, USB 3.0, and SD card reader. Perfect for laptops.",
+    "price": 34.99,
+    "image": "https://images.unsplash.com/photo-1625842268584-8f3296236761?w=500",
+    "category": "Electronics",
+    "stock": 30
+  }
+]
+

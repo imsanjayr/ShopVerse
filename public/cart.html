@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopVerse - Shopping Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#F97316',
+                        dark: '#0F172A',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light text-dark">
+    <!-- Navbar -->
+    <nav class="glass-nav sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <a href="/" class="text-2xl font-display font-bold text-primary tracking-tight">ShopVerse</a>
+                <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="/" class="hover:text-primary transition">Home</a>
+                    <a href="/#products-section" class="hover:text-primary transition">Products</a>
+                    <div id="auth-links" class="flex items-center space-x-4"></div>
+                    <a href="/cart" class="relative group">
+                        <span class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 shadow-sm hover-card transition">
+                            <i class="fas fa-shopping-cart text-primary"></i>
+                            Cart
+                            <span id="cart-badge" class="badge-pulse hidden text-xs bg-secondary text-white rounded-full px-2 py-0.5">0</span>
+                        </span>
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-dark text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden pb-4 space-y-2 text-slate-600">
+                <a href="/" class="block py-2 hover:text-primary">Home</a>
+                <a href="/#products-section" class="block py-2 hover:text-primary">Products</a>
+                <div id="mobile-auth-links"></div>
+                <a href="/cart" class="block py-2 hover:text-primary">Cart</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Content -->
+    <div class="max-w-6xl mx-auto px-4 py-12 space-y-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.4em] text-secondary">Your bag</p>
+                <h1 class="text-3xl font-display font-semibold text-dark">Shopping Cart</h1>
+            </div>
+            <a href="/" class="text-sm font-semibold text-primary hover:underline">Continue shopping</a>
+        </div>
+
+        <div id="cart-container">
+            <!-- Cart items will be loaded here -->
+        </div>
+
+        <!-- Empty Cart State -->
+        <div id="empty-cart" class="glass-card text-center py-12 hidden">
+            <i class="fas fa-shopping-cart text-6xl text-slate-200 mb-4"></i>
+            <p class="text-xl text-slate-600 mb-4">Your cart is empty</p>
+            <a href="/" class="inline-block px-6 py-3 bg-primary text-white rounded-full hover:bg-indigo-700 transition">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/cart.js"></script>
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        checkAuth();
+        updateCartBadge();
+        loadCart();
+    </script>
+</body>
+</html>
+

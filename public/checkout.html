@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopVerse - Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#F97316',
+                        dark: '#0F172A',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light text-dark">
+    <!-- Navbar -->
+    <nav class="glass-nav sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <a href="/" class="text-2xl font-display font-bold text-primary tracking-tight">ShopVerse</a>
+                <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="/" class="hover:text-primary transition">Home</a>
+                    <a href="/#products-section" class="hover:text-primary transition">Products</a>
+                    <div id="auth-links" class="flex items-center space-x-4"></div>
+                    <a href="/cart" class="relative group">
+                        <span class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 shadow-sm hover-card transition">
+                            <i class="fas fa-shopping-cart text-primary"></i>
+                            Cart
+                            <span id="cart-badge" class="badge-pulse hidden text-xs bg-secondary text-white rounded-full px-2 py-0.5">0</span>
+                        </span>
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-dark text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden pb-4 space-y-2 text-slate-600">
+                <a href="/" class="block py-2 hover:text-primary">Home</a>
+                <a href="/#products-section" class="block py-2 hover:text-primary">Products</a>
+                <div id="mobile-auth-links"></div>
+                <a href="/cart" class="block py-2 hover:text-primary">Cart</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Checkout Content -->
+    <div class="max-w-6xl mx-auto px-4 py-12 space-y-10">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[0.4em] text-secondary">Checkout</p>
+                <h1 class="text-3xl font-display font-semibold text-dark">Complete your order</h1>
+            </div>
+            <a href="/cart" class="text-sm font-semibold text-primary hover:underline">Back to cart</a>
+        </div>
+
+        <div id="checkout-sections" class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8">
+            <!-- Checkout Form -->
+            <div class="glass-card p-6 md:p-8">
+                <h2 class="text-xl font-semibold text-dark mb-6">Shipping Information</h2>
+                <form id="checkout-form" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-600 mb-2">Full Name</label>
+                        <div class="gradient-border rounded-2xl p-[1px]">
+                            <input type="text" id="name" required class="w-full bg-white/80 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/30">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-600 mb-2">Address</label>
+                        <div class="gradient-border rounded-2xl p-[1px]">
+                            <textarea id="address" required rows="3" class="w-full bg-white/80 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/30"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">Email</label>
+                            <div class="gradient-border rounded-2xl p-[1px]">
+                                <input type="email" id="checkout-email" required class="w-full bg-white/80 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/30">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">Phone Number</label>
+                            <div class="gradient-border rounded-2xl p-[1px]">
+                                <input type="tel" id="phone" required class="w-full bg-white/80 rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/30">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-primary hover:bg-indigo-700 text-white py-3 rounded-2xl font-semibold transition scale-press shadow-lg shadow-primary/30">
+                        Place Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="glass-card p-6 md:p-8">
+                <h2 class="text-xl font-semibold text-dark mb-4">Order Summary</h2>
+                <div id="order-summary" class="space-y-4">
+                    <!-- Order summary will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div id="success-screen" class="hidden text-center py-12">
+            <div class="max-w-md mx-auto glass-card p-10">
+                <div class="w-20 h-20 mx-auto rounded-full bg-success/10 flex items-center justify-center mb-6">
+                    <i class="fas fa-check text-success text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-3 text-dark">Order placed successfully!</h2>
+                <p class="text-slate-500 mb-6">Thank you for shopping with ShopVerse. We have sent a confirmation to your email.</p>
+                <div class="space-y-3">
+                    <a href="/orders" class="inline-block w-full px-6 py-3 bg-primary text-white rounded-full hover:bg-indigo-700 transition">
+                        View My Orders
+                    </a>
+                    <a href="/" class="inline-block w-full px-6 py-3 bg-white text-dark rounded-full border border-primary/20 hover:bg-primary/5 transition">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/checkout.js"></script>
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        checkAuth();
+        updateCartBadge();
+        loadOrderSummary();
+    </script>
+</body>
+</html>
+

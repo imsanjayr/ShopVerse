@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopVerse - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#F97316',
+                        dark: '#0F172A',
+                        light: '#F8FAFC',
+                        success: '#10B981',
+                        slate: '#6B7280'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Poppins', 'sans-serif'],
+                        display: ['Poppins', 'Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light text-dark">
+    <!-- Navbar -->
+    <nav class="glass-nav sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <a href="/" class="text-2xl font-display font-bold text-primary tracking-tight">ShopVerse</a>
+                <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="/" class="hover:text-primary transition">Home</a>
+                    <a href="#products-section" class="hover:text-primary transition">Products</a>
+                    <div id="auth-links" class="flex items-center space-x-4"></div>
+                    <a href="/cart" class="relative group">
+                        <span class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 shadow-sm hover-card transition">
+                            <i class="fas fa-shopping-cart text-primary"></i>
+                            Cart
+                            <span id="cart-badge" class="badge-pulse hidden text-xs bg-secondary text-white rounded-full px-2 py-0.5">0</span>
+                        </span>
+                    </a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-dark text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden pb-4 space-y-2 text-slate-600">
+                <a href="/" class="block py-2 hover:text-primary">Home</a>
+                <a href="#products-section" class="block py-2 hover:text-primary">Products</a>
+                <div id="mobile-auth-links"></div>
+                <a href="/cart" class="block py-2 hover:text-primary">Cart</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-gradient">
+        <div class="max-w-6xl mx-auto px-4 py-16">
+            <div class="grid lg:grid-cols-2 gap-10 items-center">
+                <div class="space-y-6">
+                    <p class="uppercase tracking-[0.4em] text-xs font-semibold text-secondary">Next-gen shopping</p>
+                    <h1 class="text-4xl md:text-5xl font-display font-bold text-dark leading-tight">
+                        Discover Products Curated <span class="text-primary">for You</span>
+                    </h1>
+                    <p class="text-slate-600 text-lg">
+                        Shop the latest styles in fashion and tech with seamless checkout, fast delivery, and personalized experiences.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#products-section" class="scale-press inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full shadow-lg hover:bg-indigo-700 transition">
+                            Browse Products <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+                        <a href="/cart" class="scale-press inline-flex items-center gap-2 border border-primary text-primary px-6 py-3 rounded-full hover:bg-primary/5 transition">
+                            View Cart
+                        </a>
+                    </div>
+                </div>
+                <div class="glass-card p-8 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-slate-500">New Arrivals</p>
+                            <p class="text-2xl font-bold text-dark">20+ Drops</p>
+                        </div>
+                        <span class="px-4 py-2 bg-secondary/10 text-secondary rounded-full text-sm font-semibold">Updated Daily</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-white rounded-xl shadow-sm hover-card">
+                            <p class="text-xs uppercase text-slate-500">Menswear</p>
+                            <p class="text-lg font-semibold text-dark">Top Picks</p>
+                        </div>
+                        <div class="p-4 bg-white rounded-xl shadow-sm hover-card">
+                            <p class="text-xs uppercase text-slate-500">Tech</p>
+                            <p class="text-lg font-semibold text-dark">Featured</p>
+                        </div>
+                        <div class="col-span-2 p-4 bg-dark text-white rounded-xl">
+                            <p class="text-sm text-white/70 mb-3">Exclusive deals when you join ShopVerse+</p>
+                            <button class="w-full bg-white text-dark py-2 rounded-lg font-semibold hover:bg-light transition">Join now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div id="products-section" class="max-w-6xl mx-auto px-4 py-12 space-y-8">
+        <div class="glass-card p-6 md:p-8">
+            <div class="grid gap-6 md:grid-cols-[2fr_1fr] items-center">
+                <div class="gradient-border rounded-2xl p-[1px]">
+                    <div class="w-full bg-white rounded-2xl flex items-center gap-3 px-4 py-3">
+                        <i class="fas fa-search text-primary text-lg"></i>
+                        <input type="text" id="search-input" placeholder="Search for sneakers, headphones, dresses..." class="w-full bg-transparent outline-none text-slate-700" />
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 md:justify-end">
+                    <button class="category-btn pill-btn active" data-category="all">All</button>
+                    <button class="category-btn pill-btn" data-category="Men">Men</button>
+                    <button class="category-btn pill-btn" data-category="Women">Women</button>
+                    <button class="category-btn pill-btn" data-category="Electronics">Electronics</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
+        <!-- Loading State -->
+        <div id="loading" class="glass-card text-center py-12 hidden">
+            <i class="fas fa-spinner fa-spin text-4xl text-primary"></i>
+            <p class="mt-4 text-slate-600">Loading products...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="glass-card text-center py-12 hidden">
+            <i class="fas fa-box-open text-6xl text-slate-200 mb-4"></i>
+            <p class="text-xl text-slate-600">No products found</p>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/products.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        checkAuth();
+        updateCartBadge();
+        loadProducts();
+    </script>
+</body>
+</html>
+

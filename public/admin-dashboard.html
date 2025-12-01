@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopVerse - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#F97316',
+                        dark: '#0F172A',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light min-h-screen text-dark">
+    <div class="min-h-screen flex bg-[#0F172A]">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-dark text-white flex flex-col">
+            <div class="px-6 py-8 border-b border-white/10">
+                <a href="/" class="text-2xl font-semibold">ShopVerse Admin</a>
+                <p class="text-sm text-white/50 mt-2">Manage products & orders</p>
+            </div>
+            <nav class="flex-1 px-4 py-6 space-y-2 text-sm font-semibold">
+                <a href="/admin-dashboard" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/10 text-white">
+                    <i class="fas fa-box"></i> Products
+                </a>
+                <a href="/admin-orders" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/70 hover:bg-white/10 hover:text-white transition">
+                    <i class="fas fa-list-check"></i> Orders
+                </a>
+                <button id="logout-btn" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/70 hover:bg-white/10 hover:text-white transition w-full text-left">
+                    <i class="fas fa-right-from-bracket"></i> Logout
+                </button>
+            </nav>
+            <div class="px-6 py-6 border-t border-white/10 text-xs text-white/50">
+                © <span id="sidebar-year"></span> ShopVerse
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 bg-[#EEF2FF]">
+            <div class="max-w-6xl mx-auto px-6 py-10 space-y-8">
+                <div class="flex flex-wrap gap-4 justify-between items-center">
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.4em] text-secondary">Dashboard</p>
+                        <h1 class="text-3xl font-display font-semibold text-dark">Product Management</h1>
+                    </div>
+                    <button id="add-product-btn" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-full hover:bg-indigo-700 transition">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-card p-6">
+                        <p class="text-sm text-slate-500">Total Users</p>
+                        <p id="stat-users" class="text-3xl font-bold text-dark mt-2">--</p>
+                    </div>
+                    <div class="glass-card p-6">
+                        <p class="text-sm text-slate-500">Total Products</p>
+                        <p id="stat-products" class="text-3xl font-bold text-dark mt-2">--</p>
+                    </div>
+                    <div class="glass-card p-6">
+                        <p class="text-sm text-slate-500">Total Orders</p>
+                        <p id="stat-orders" class="text-3xl font-bold text-dark mt-2">--</p>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="glass-card overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead class="bg-light">
+                                <tr class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    <th class="px-6 py-3">ID</th>
+                                    <th class="px-6 py-3">Image</th>
+                                    <th class="px-6 py-3">Name</th>
+                                    <th class="px-6 py-3">Category</th>
+                                    <th class="px-6 py-3">Price</th>
+                                    <th class="px-6 py-3">Stock</th>
+                                    <th class="px-6 py-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-table" class="divide-y divide-slate-100 text-sm">
+                                <!-- Products will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="product-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4">
+        <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <h2 id="modal-title" class="text-2xl font-bold mb-6">Add Product</h2>
+            <form id="product-form" class="space-y-4">
+                <input type="hidden" id="product-id">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-600 mb-2">Product Name</label>
+                    <input type="text" id="product-name" required class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-600 mb-2">Description</label>
+                    <textarea id="product-description" required rows="3" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-600 mb-2">Price</label>
+                        <input type="number" id="product-price" step="0.01" required class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-600 mb-2">Stock</label>
+                        <input type="number" id="product-stock" required class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-600 mb-2">Category</label>
+                        <select id="product-category" required class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30">
+                            <option value="Men">Men</option>
+                            <option value="Women">Women</option>
+                            <option value="Electronics">Electronics</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-600 mb-2">Image URL</label>
+                        <input type="url" id="product-image" required class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30">
+                    </div>
+                </div>
+                <div class="flex gap-4 pt-2">
+                    <button type="submit" class="flex-1 bg-primary text-white py-3 rounded-full hover:bg-indigo-700 transition font-semibold">Save</button>
+                    <button type="button" id="cancel-btn" class="flex-1 border border-slate-200 text-slate-600 py-3 rounded-full hover:bg-slate-50 transition">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        document.getElementById('sidebar-year').textContent = new Date().getFullYear();
+
+        checkAdminAuth().then((isAuthed) => {
+            if (isAuthed) {
+                loadAdminProducts();
+                loadAdminStats();
+            }
+        });
+
+        document.getElementById('add-product-btn').addEventListener('click', () => {
+            document.getElementById('modal-title').textContent = 'Add Product';
+            document.getElementById('product-form').reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('product-modal').classList.remove('hidden');
+        });
+
+        document.getElementById('cancel-btn').addEventListener('click', () => {
+            document.getElementById('product-modal').classList.add('hidden');
+        });
+
+        document.getElementById('product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('product-id').value;
+            const product = {
+                name: document.getElementById('product-name').value,
+                description: document.getElementById('product-description').value,
+                price: document.getElementById('product-price').value,
+                stock: document.getElementById('product-stock').value,
+                category: document.getElementById('product-category').value,
+                image: document.getElementById('product-image').value
+            };
+
+            if (id) {
+                await updateProduct(id, product);
+            } else {
+                await createProduct(product);
+            }
+
+            document.getElementById('product-modal').classList.add('hidden');
+            loadAdminProducts();
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await fetch('/api/admin/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
+            window.location.href = '/admin-login';
+        });
+    </script>
+</body>
+</html>
+

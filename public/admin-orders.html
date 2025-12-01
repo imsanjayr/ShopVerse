@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopVerse - Admin Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#F97316',
+                        dark: '#0F172A',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light min-h-screen text-dark">
+    <div class="min-h-screen flex bg-[#0F172A]">
+        <aside class="w-64 bg-dark text-white flex flex-col">
+            <div class="px-6 py-8 border-b border-white/10">
+                <a href="/" class="text-2xl font-semibold">ShopVerse Admin</a>
+                <p class="text-sm text-white/50 mt-2">Manage products & orders</p>
+            </div>
+            <nav class="flex-1 px-4 py-6 space-y-2 text-sm font-semibold">
+                <a href="/admin-dashboard" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/70 hover:bg-white/10 hover:text-white transition">
+                    <i class="fas fa-box"></i> Products
+                </a>
+                <a href="/admin-orders" class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/10 text-white">
+                    <i class="fas fa-list-check"></i> Orders
+                </a>
+                <button id="logout-btn" class="flex items-center gap-3 px-4 py-3 rounded-2xl text-white/70 hover:bg-white/10 hover:text-white transition w-full text-left">
+                    <i class="fas fa-right-from-bracket"></i> Logout
+                </button>
+            </nav>
+        </aside>
+
+        <main class="flex-1 bg-light">
+            <div class="max-w-6xl mx-auto px-6 py-10 space-y-8">
+                <div class="flex flex-wrap gap-4 justify-between items-center">
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.4em] text-secondary">Orders</p>
+                        <h1 class="text-3xl font-display font-semibold text-dark">Order Management</h1>
+                    </div>
+                    <span id="orders-count" class="px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold">0 orders</span>
+                </div>
+
+                <div class="glass-card overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead class="bg-light">
+                                <tr class="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    <th class="px-6 py-3">Order ID</th>
+                                    <th class="px-6 py-3">Customer</th>
+                                    <th class="px-6 py-3">Total</th>
+                                    <th class="px-6 py-3">Date</th>
+                                    <th class="px-6 py-3">Status</th>
+                                    <th class="px-6 py-3">View</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table" class="divide-y divide-slate-100 text-sm">
+                                <!-- rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="empty-orders" class="glass-card text-center py-12 hidden">
+                    <i class="fas fa-box-open text-6xl text-slate-200 mb-4"></i>
+                    <p class="text-xl text-slate-600">No orders yet</p>
+                </div>
+
+                <div id="order-detail" class="glass-card p-6 hidden">
+                    <p class="text-sm uppercase tracking-[0.4em] text-secondary mb-2">Order Detail</p>
+                    <h2 id="detail-order-id" class="text-2xl font-semibold text-dark mb-4"></h2>
+                    <div id="detail-content" class="space-y-4 text-sm text-slate-600"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        checkAdminAuth().then(isAuthed => {
+            if (isAuthed) {
+                loadAdminOrders();
+            }
+        });
+
+        let adminOrders = [];
+
+        async function loadAdminOrders() {
+            try {
+                const response = await fetch('/api/admin/orders', {
+                    credentials: 'include'
+                });
+
+                if (response.status === 401) {
+                    window.location.href = '/admin-login';
+                    return;
+                }
+
+                const orders = await response.json();
+                adminOrders = orders;
+                const tableBody = document.getElementById('orders-table');
+                const emptyState = document.getElementById('empty-orders');
+                const countBadge = document.getElementById('orders-count');
+
+                if (orders.length === 0) {
+                    if (tableBody) tableBody.innerHTML = '';
+                    emptyState.classList.remove('hidden');
+                    if (countBadge) countBadge.textContent = '0 orders';
+                    return;
+                }
+
+                emptyState.classList.add('hidden');
+                if (countBadge) countBadge.textContent = `${orders.length} orders`;
+
+                if (tableBody) {
+                    tableBody.innerHTML = orders.map(order => `
+                        <tr class="hover:bg-light/70 transition">
+                            <td class="px-6 py-4 font-semibold text-dark">#${order.id}</td>
+                            <td class="px-6 py-4">
+                                <p class="font-semibold text-dark">${order.shippingInfo.name}</p>
+                                <p class="text-xs text-slate-500">${order.userId}</p>
+                            </td>
+                            <td class="px-6 py-4 font-semibold text-primary">$${Number(order.total).toFixed(2)}</td>
+                            <td class="px-6 py-4 text-slate-500">${new Date(order.createdAt).toLocaleDateString()}</td>
+                            <td class="px-6 py-4">
+                                <select id="status-${order.id}" class="px-3 py-1 border border-slate-200 rounded-full text-sm" onchange="updateOrderStatus('${order.id}')">
+                                    <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                                    <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                                    <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                                </select>
+                            </td>
+                            <td class="px-6 py-4">
+                                <button class="text-sm font-semibold text-primary hover:underline" onclick="viewOrder('${order.id}')">
+                                    View Details
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading orders:', error);
+            }
+        }
+
+        async function updateOrderStatus(orderId) {
+            const status = document.getElementById(`status-${orderId}`).value;
+            try {
+                const response = await fetch(`/api/admin/orders/${orderId}/status`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ status })
+                });
+
+                if (response.ok) {
+                    loadAdminOrders();
+                }
+            } catch (error) {
+                console.error('Error updating order status:', error);
+            }
+        }
+
+        function viewOrder(orderId) {
+            const order = adminOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const detailCard = document.getElementById('order-detail');
+            const detailId = document.getElementById('detail-order-id');
+            const detailContent = document.getElementById('detail-content');
+
+            if (!detailCard || !detailId || !detailContent) return;
+
+            detailId.textContent = `Order #${order.id}`;
+            detailContent.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase">Customer</p>
+                        <p class="font-semibold text-dark">${order.shippingInfo.name}</p>
+                        <p class="text-sm">${order.shippingInfo.address}</p>
+                        <p class="text-sm">Phone: ${order.shippingInfo.phone}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase">Summary</p>
+                        <p>Total: <span class="font-semibold">$${Number(order.total).toFixed(2)}</span></p>
+                        <p>Status: <span class="font-semibold">${order.status}</span></p>
+                        <p>Date: ${new Date(order.createdAt).toLocaleString()}</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400 uppercase mt-4 mb-2">Items</p>
+                    <ul class="space-y-2">
+                        ${order.items.map(item => `
+                            <li class="flex justify-between text-sm">
+                                <span>${item.productName} x${item.quantity}</span>
+                                <span>$${item.subtotal.toFixed(2)}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+
+            detailCard.classList.remove('hidden');
+            detailCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.updateOrderStatus = updateOrderStatus;
+        window.viewOrder = viewOrder;
+
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await fetch('/api/admin/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
+            window.location.href = '/admin-login';
+        });
+
+        });
+    </script>
+</body>
+</html>
+

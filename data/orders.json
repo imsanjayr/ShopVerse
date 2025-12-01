@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1764571243222",
+    "userId": "1764571100608",
+    "items": [
+      {
+        "productId": "1",
+        "productName": "Classic White T-Shirt",
+        "quantity": 1,
+        "price": 29.99,
+        "subtotal": 29.99
+      }
+    ],
+    "subtotal": "29.99",
+    "tax": "3.00",
+    "shipping": "10.00",
+    "total": "42.99",
+    "shippingInfo": {
+      "name": "Sanjay R ",
+      "address": "ADDRESS ",
+      "phone": "1234567890"
+    },
+    "status": "pending",
+    "createdAt": "2025-12-01T06:40:43.222Z"
+  }
+]

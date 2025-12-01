@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopVerse - Admin Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#F97316',
+                        dark: '#0F172A'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="min-h-screen bg-[#040713] text-white">
+    <div class="relative min-h-screen overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.25),_transparent_45%)] pointer-events-none"></div>
+
+        <div class="relative min-h-screen grid lg:grid-cols-2">
+            <div class="hidden lg:flex flex-col justify-between p-12 bg-gradient-to-br from-[#0F172A] via-[#0B1220] to-[#040713]">
+                <div>
+                    <a href="/" class="text-2xl font-display font-semibold text-white">ShopVerse Admin</a>
+                    <p class="mt-2 text-sm text-white/60">Secure management console</p>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.4em] text-secondary">Security First</p>
+                        <h1 class="text-4xl font-display font-semibold text-white leading-tight mt-4">Operate with confidence using enterprise-grade controls.</h1>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-primary text-xl">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">Hardened Access</p>
+                                <p class="text-sm text-white/60">Session-based authentication and encrypted credentials.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-secondary text-xl">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-white">Live Insights</p>
+                                <p class="text-sm text-white/60">Monitor inventory, orders, and KPIs in real time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-sm text-white/50">Need help? <a href="mailto:support@shopverse.com" class="text-white hover:underline">Contact support</a></div>
+            </div>
+
+            <div class="flex items-center justify-center p-6 lg:p-12">
+                <div class="w-full max-w-md bg-white text-dark rounded-3xl shadow-[0_30px_80px_rgba(15,23,42,0.35)] p-8">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <p class="text-sm uppercase tracking-[0.4em] text-secondary">Admin Access</p>
+                            <h2 class="text-3xl font-display font-semibold text-dark">Sign in to dashboard</h2>
+                        </div>
+                        <a href="/" class="text-sm text-slate-500 hover:text-primary transition">Back to store</a>
+                    </div>
+
+                    <form id="admin-login-form" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">Username</label>
+                            <div class="gradient-border rounded-2xl p-[1px]">
+                                <div class="flex items-center gap-3 bg-white rounded-2xl px-4 py-3 border border-slate-200">
+                                    <i class="fas fa-user text-slate-400"></i>
+                                    <input type="text" id="username" required class="w-full bg-transparent outline-none text-dark placeholder-slate-400" placeholder="admin">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">Password</label>
+                            <div class="gradient-border rounded-2xl p-[1px]">
+                                <div class="flex items-center gap-3 bg-white rounded-2xl px-4 py-3 border border-slate-200">
+                                    <i class="fas fa-lock text-slate-400"></i>
+                                    <input type="password" id="password" required class="w-full bg-transparent outline-none text-dark placeholder-slate-400" placeholder="••••••••">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-primary hover:bg-indigo-600 text-white py-3 rounded-2xl font-semibold transition scale-press shadow-lg shadow-primary/30">
+                            Login
+                        </button>
+                        <p class="text-xs text-slate-500 text-center">Authorized personnel only. All actions are logged.</p>
+                        <div id="error-message" class="mt-2 p-3 bg-red-100 text-red-700 rounded-lg hidden text-sm"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            const errorDiv = document.getElementById('error-message');
+            
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    window.location.href = '/admin-dashboard';
+                } else {
+                    errorDiv.textContent = data.error || 'Login failed';
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
+
